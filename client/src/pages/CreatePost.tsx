@@ -32,8 +32,33 @@ const CreatePost = () => {
     setForm((prev) => ({ ...prev, prompt: randomPrompt }));
   };
 
-  const handleGenerateImage = () => {
-    // TODO: Handle image generation after making backend
+  const handleGenerateImage = async () => {
+    if (form.prompt) {
+      try {
+        setGeneratingImage(true);
+        const response = await fetch(
+          "http://localhost:3000/api/dalle/generate",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ prompt: form.prompt }),
+          }
+        );
+
+        const data = await response.json();
+
+        setForm((prev) => ({
+          ...prev,
+          photo: `data:image/jpeg;base64,${data.photo}`,
+        }));
+      } catch (error) {
+        alert(error);
+      } finally {
+        setGeneratingImage(false);
+      }
+    }
   };
 
   return (
