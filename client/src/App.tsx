@@ -1,7 +1,33 @@
 import React from "react";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+
+import { logo } from "./assets";
+import { Home, CreatePost } from "./pages";
 
 const App = () => {
-  return <h1 className="text-3xl font-bold underline">Hello World!</h1>;
+  return (
+    <BrowserRouter>
+      <header className="w-full flex justify-between items-center bg-white p-4 border-b border-b-[#e6ebf4] sm:px-8">
+        <Link to="/">
+          <img src={logo} alt="Logo" className="w-28 object-contain" />
+        </Link>
+
+        <Link
+          to="/create-post"
+          className="bg-[#6469ff] px-4 py-2 text-white rounded-md font-inter font-medium"
+        >
+          Create
+        </Link>
+      </header>
+
+      <main className="w-full min-h-[calc(100vh-73px)] bg-[#f9fafe] px-4 py-8 sm:p-8">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/create-post" element={<CreatePost />} />
+        </Routes>
+      </main>
+    </BrowserRouter>
+  );
 };
 
 export default App;
