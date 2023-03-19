@@ -25,13 +25,27 @@ const RenderCards: FC<RenderCardsProps> = ({ data, title }) => {
 };
 
 const Home = () => {
-  const [allPosts, setAllPosts] = useState(null);
+  const [allPosts, setAllPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
 
+  useEffect(() => {
+    try {
+      setLoading(true);
+      fetch("http://localhost:3000/api/posts/all")
+        .then((res) => res.json())
+        .then((data) => {
+          setAllPosts(data.reverse());
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
-
     setSearchText(value);
   };
 
