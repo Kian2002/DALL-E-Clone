@@ -26,6 +26,8 @@ const RenderCards: FC<RenderCardsProps> = ({ data, title }) => {
 
 const Home = () => {
   const [allPosts, setAllPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
+
   const [loading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
 
@@ -47,6 +49,16 @@ const Home = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
     setSearchText(value);
+
+    setTimeout(() => {
+      const filtered = allPosts.filter(
+        (post: any) =>
+          post.name.toLowerCase().includes(searchText.toLowerCase()) ||
+          post.prompt.toLowerCase().includes(searchText.toLowerCase())
+      );
+
+      setFilteredPosts(filtered);
+    }, 500);
   };
 
   return (
@@ -88,7 +100,10 @@ const Home = () => {
 
             <div className="grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3">
               {searchText ? (
-                <RenderCards data={[]} title="No search results found" />
+                <RenderCards
+                  data={filteredPosts}
+                  title="No search results found"
+                />
               ) : (
                 <RenderCards data={allPosts} title="No posts found" />
               )}
