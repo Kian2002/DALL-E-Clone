@@ -30,6 +30,7 @@ const Home = () => {
 
   const [loading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [searchTimeout, setSearchTimeout] = useState(0);
 
   useEffect(() => {
     try {
@@ -47,18 +48,21 @@ const Home = () => {
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    clearTimeout(searchTimeout);
     const { value } = e.currentTarget;
     setSearchText(value);
 
-    setTimeout(() => {
-      const filtered = allPosts.filter(
-        (post: any) =>
-          post.name.toLowerCase().includes(searchText.toLowerCase()) ||
-          post.prompt.toLowerCase().includes(searchText.toLowerCase())
-      );
+    setSearchTimeout(
+      setTimeout(() => {
+        const filtered = allPosts.filter(
+          (post: any) =>
+            post.name.toLowerCase().includes(searchText.toLowerCase()) ||
+            post.prompt.toLowerCase().includes(searchText.toLowerCase())
+        );
 
-      setFilteredPosts(filtered);
-    }, 500);
+        setFilteredPosts(filtered);
+      }, 500)
+    );
   };
 
   return (
