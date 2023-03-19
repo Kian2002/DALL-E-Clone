@@ -16,8 +16,31 @@ const CreatePost = () => {
   const [generatingImage, setGeneratingImage] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
-    // TODO: Handle form submission after making backend
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (form.prompt && form.photo) {
+      setLoading(true);
+
+      try {
+        const response = await fetch("http://localhost:3000/api/posts/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        });
+
+        await response.json();
+        navigate("/");
+      } catch (error) {
+        alert(error);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      alert("Please fill out all the fields");
+    }
   };
 
   const handleChange = (e: FormEvent<HTMLInputElement>) => {
