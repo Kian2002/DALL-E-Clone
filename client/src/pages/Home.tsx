@@ -35,7 +35,7 @@ const Home = () => {
   useEffect(() => {
     try {
       setLoading(true);
-      fetch("http://localhost:3000/api/posts/all")
+      fetch("https://hungry-robe-cow.cyclic.app/api/posts/all")
         .then((res) => res.json())
         .then((data) => {
           setAllPosts(data.reverse());

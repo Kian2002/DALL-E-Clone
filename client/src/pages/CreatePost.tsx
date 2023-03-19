@@ -23,13 +23,16 @@ const CreatePost = () => {
       setLoading(true);
 
       try {
-        const response = await fetch("http://localhost:3000/api/posts/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(form),
-        });
+        const response = await fetch(
+          "https://hungry-robe-cow.cyclic.app/api/posts/create",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(form),
+          }
+        );
 
         await response.json();
         navigate("/");
@@ -60,7 +63,7 @@ const CreatePost = () => {
       try {
         setGeneratingImage(true);
         const response = await fetch(
-          "http://localhost:3000/api/dalle/generate",
+          "https://hungry-robe-cow.cyclic.app/api/dalle/generate",
           {
             method: "POST",
             headers: {
